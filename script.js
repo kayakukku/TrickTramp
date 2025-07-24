@@ -270,7 +270,6 @@ document.addEventListener('DOMContentLoaded', () => {
         state.phase = 'game-over';
         stopAllLoopSounds();
         let resultMessage;
-        // ★引き分け判定のバグを修正 (state.ai.score > state.ai.score になっていたのを修正)
         if (state.player.score > state.ai.score) { resultMessage = "あなたの勝利！"; playSound(sounds.win); }
         else if (state.ai.score > state.player.score) { resultMessage = "あなたの敗北..."; playSound(sounds.lose); }
         else { resultMessage = "引き分け"; playSound(sounds.hikiwake); }
