@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // ★テストをしやすくするための「デバッグモード」設定
-    const DEBUG_MODE = true;
+    const DEBUG_MODE = false;
 
     const elements = {
         gameContainer: document.getElementById('game-container'),
