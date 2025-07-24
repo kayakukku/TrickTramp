@@ -206,7 +206,13 @@ document.addEventListener('DOMContentLoaded', () => {
         let pPoints = 0, aPoints = 0, message = "";
         const pIsJoker = pCard === 'Joker', aIsJoker = aCard === 'Joker';
         const pVal = parseInt(pCard), aVal = parseInt(aCard);
-        if (pIsJoker && aIsJoker) { message = "引き分け！"; }
+
+        // ★★★ここがルールの変更点です★★★
+        if (pIsJoker && aIsJoker) { 
+            message = "相打ち！\n両者 -2pt";
+            pPoints = -2;
+            aPoints = -2;
+        }
         else if (pIsJoker) { pPoints = aVal; message = `プレイヤーが ${pPoints}pt 獲得！`; }
         else if (aIsJoker) { aPoints = pVal; message = `AIが ${aPoints}pt 獲得！`; }
         else {
