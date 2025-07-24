@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // ★テストをしやすくするための「デバッグモード」設定
+    // trueにすると、プレイヤーがジョーカーを出した時にAIも必ずジョーカーを出すようになります。
+    // テストが終わったらfalseに戻してください。
+    const DEBUG_MODE = true;
+
     const elements = {
         gameContainer: document.getElementById('game-container'),
         playerHand: document.getElementById('player-hand'),
@@ -179,9 +184,21 @@ document.addEventListener('DOMContentLoaded', () => {
     function aiTurn() {
         state.phase = 'ai-turn';
         updateScoresAndAbilities();
-        const randomIndex = Math.floor(Math.random() * state.ai.hand.length);
-        state.ai.cardToPlay = state.ai.hand[randomIndex];
-        state.ai.hand.splice(randomIndex, 1);
+
+        // ★デバッグモードの処理：プレイヤーがジョーカーを出したら、AIも（持っていれば）必ずジョーカーを出す
+        if (DEBUG_MODE && state.player.cardToPlay === 'Joker' && state.ai.hand.includes('Joker')) {
+            state.ai.cardToPlay = 'Joker';
+        } else {
+            // 通常のランダムな手
+            const randomIndex = Math.floor(Math.random() * state.ai.hand.length);
+            state.ai.cardToPlay = state.ai.hand[randomIndex];
+        }
+        
+        const aiCardIndex = state.ai.hand.indexOf(state.ai.cardToPlay);
+        if (aiCardIndex > -1) {
+            state.ai.hand.splice(aiCardIndex, 1);
+        }
+
         elements.aiCardSlot.innerHTML = '';
         elements.aiCardSlot.appendChild(createCardElement('back', 'ai'));
         renderHands();
@@ -206,8 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let pPoints = 0, aPoints = 0, message = "";
         const pIsJoker = pCard === 'Joker', aIsJoker = aCard === 'Joker';
         const pVal = parseInt(pCard), aVal = parseInt(aCard);
-
-        // ★★★ここがルールの変更点です★★★
+        
         if (pIsJoker && aIsJoker) { 
             message = "相打ち！\n両者 -2pt";
             pPoints = -2;
