@@ -132,14 +132,13 @@ body {
 }
 
 .card.back {
-    background-image: url('images/back.png');
+    background-image: url('back.png');
 }
-
-.card[data-value="1"] { background-image: url('images/1.png'); }
-.card[data-value="2"] { background-image: url('images/2.png'); }
-.card[data-value="3"] { background-image: url('images/3.png'); }
-.card[data-value="4"] { background-image: url('images/4.png'); }
-.card[data-value="Joker"] { background-image: url('images/joker.png'); }
+.card[data-value="1"] { background-image: url('1.png'); }
+.card[data-value="2"] { background-image: url('2.png'); }
+.card[data-value="3"] { background-image: url('3.png'); }
+.card[data-value="4"] { background-image: url('4.png'); }
+.card[data-value="Joker"] { background-image: url('joker.png'); }
 
 #player-hand .card.playable {
     cursor: pointer;
@@ -152,7 +151,7 @@ body {
 
 .card.selected {
     transform: translateY(-20px) scale(1.1);
-    box-shadow: 0 0 20px 8px #00f6ff !important; /* ★ここを青色に変更しました */
+    box-shadow: 0 0 20px 8px #00f6ff !important;
 }
 
 #control-area {

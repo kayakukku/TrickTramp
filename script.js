@@ -20,21 +20,21 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const sounds = {
-        bgm: new Audio('sounds/Night_Howling.mp3'),
-        set: new Audio('sounds/set.mp3'),
-        open: new Audio('sounds/open.mp3'),
-        lose: new Audio('sounds/lose.mp3'),
-        joker_use: new Audio('sounds/joker_use.mp3'),
-        hikiwake: new Audio('sounds/hikiwake.mp3'),
-        cursor_move: new Audio('sounds/Cursor_Move.mp3'),
-        bairitu_success: new Audio('sounds/bairitu_bonus_success.mp3'),
-        win: new Audio('sounds/win.mp3'),
-        tokusyu_hatudou: new Audio('sounds/tokusyu_hatudou.mp3'),
-        timer: new Audio('sounds/timer.mp3'),
+        bgm: new Audio('Night_Howling.mp3'),
+        set: new Audio('set.mp3'),
+        open: new Audio('open.mp3'),
+        lose: new Audio('lose.mp3'),
+        joker_use: new Audio('joker_use.mp3'),
+        hikiwake: new Audio('hikiwake.mp3'),
+        cursor_move: new Audio('Cursor_Move.mp3'),
+        bairitu_success: new Audio('bairitu_bonus_success.mp3'),
+        win: new Audio('win.mp3'),
+        tokusyu_hatudou: new Audio('tokusyu_hatudou.mp3'),
+        timer: new Audio('timer.mp3'),
     };
     
     sounds.bgm.loop = true;
-    sounds.bgm.volume = 0.15; // ★BGMの音量を30%から15%に下げました
+    sounds.bgm.volume = 0.15;
     sounds.timer.loop = true;
     sounds.timer.volume = 0.5;
 
@@ -44,10 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let isBgmPlaying = false;
     let isTimerSoundPlaying = false;
 
-    // ★効果音を確実に再生させるための新しい関数
     function playSound(sound) {
-        sound.currentTime = 0; // 音を最初まで巻き戻す
-        sound.play();          // 再生する
+        sound.currentTime = 0;
+        sound.play();
     }
 
     function playBgm() {
@@ -84,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showModal( "倍率ボーナス選択", "勝利時のポイントが倍になるカードを1枚選んでください。", state.player.hand.filter(card => ["2", "3", "4"].includes(card)),
             (cardValue) => {
                 playBgm();
-                playSound(sounds.cursor_move); // ★再生方法を変更
+                playSound(sounds.cursor_move);
                 state.player.bonusCard = cardValue;
                 hideModal();
                 startGame();
@@ -153,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function handlePlayerCardSelect(cardValue) {
         if (state.phase !== 'player-turn' || state.isModalOpen) return;
         if (state.player.selectedCard === cardValue) {
-            playSound(sounds.set); // ★再生方法を変更
+            playSound(sounds.set);
             state.player.cardToPlay = cardValue;
             state.player.selectedCard = null;
             stopTimer();
@@ -164,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
             renderHands();
             aiTurn();
         } else {
-            playSound(sounds.cursor_move); // ★再生方法を変更
+            playSound(sounds.cursor_move);
             state.player.selectedCard = cardValue;
             renderHands();
         }
@@ -214,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pVal > aVal) {
                 pPoints = pVal - aVal;
                 if (pCard === state.player.bonusCard) {
-                    playSound(sounds.bairitu_success); // ★再生方法を変更
+                    playSound(sounds.bairitu_success);
                     pPoints *= { '2': 4, '3': 3, '4': 2 }[pCard];
                     message = `倍率ボーナス！\nプレイヤーが ${pPoints}pt 獲得！`;
                 } else { message = `プレイヤーが ${pPoints}pt 獲得！`; }
@@ -291,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.swapAbilityButton.addEventListener('click', (e) => {
         e.stopPropagation();
         if (elements.swapAbilityButton.disabled) return;
-        playSound(sounds.tokusyu_hatudou); // ★再生方法を変更
+        playSound(sounds.tokusyu_hatudou);
         showModal( "墓地と手札を交換", "手札から墓地に送るカードを1枚選んでください。", state.player.hand,
             (cardToSwap) => {
                 const graveyardIndex = Math.floor(Math.random() * state.graveyard.length);
@@ -312,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     elements.graveyardDisplay.addEventListener('click', (e) => {
         e.stopPropagation();
-        playSound(sounds.cursor_move); // ★再生方法を変更
+        playSound(sounds.cursor_move);
         if (state.graveyard.length === 0) {
              showModal("墓地", "<p>墓地はまだ空です。</p>", [], null, [{text: "閉じる", action: hideModal}]);
              return;
