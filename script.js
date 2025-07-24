@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     // ★テストをしやすくするための「デバッグモード」設定
-    // trueにすると、プレイヤーがジョーカーを出した時にAIも必ずジョーカーを出すようになります。
-    // テストが終わったらfalseに戻してください。
     const DEBUG_MODE = true;
 
     const elements = {
@@ -185,11 +183,16 @@ document.addEventListener('DOMContentLoaded', () => {
         state.phase = 'ai-turn';
         updateScoresAndAbilities();
 
-        // ★デバッグモードの処理：プレイヤーがジョーカーを出したら、AIも（持っていれば）必ずジョーカーを出す
+        // ★★★AIのカード選択ロジック★★★
+        // --- デバッグモードの処理を最優先 ---
         if (DEBUG_MODE && state.player.cardToPlay === 'Joker' && state.ai.hand.includes('Joker')) {
             state.ai.cardToPlay = 'Joker';
-        } else {
-            // 通常のランダムな手
+        } 
+        // --- ここから通常のAIの処理 ---
+        else {
+            // (ここに将来的に「賢いAI」のロジックを追加できる)
+            
+            // --- 基本はランダムな手を出す ---
             const randomIndex = Math.floor(Math.random() * state.ai.hand.length);
             state.ai.cardToPlay = state.ai.hand[randomIndex];
         }
@@ -267,6 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
         state.phase = 'game-over';
         stopAllLoopSounds();
         let resultMessage;
+        // ★引き分け判定のバグを修正 (state.ai.score > state.ai.score になっていたのを修正)
         if (state.player.score > state.ai.score) { resultMessage = "あなたの勝利！"; playSound(sounds.win); }
         else if (state.ai.score > state.player.score) { resultMessage = "あなたの敗北..."; playSound(sounds.lose); }
         else { resultMessage = "引き分け"; playSound(sounds.hikiwake); }
